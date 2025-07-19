@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.yourorg.stegoapp.gui.controllers.StegoController"
+      spacing="16">
+    <!-- Padding around entire view -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Top bar: Title -->
+    <Label fx:id="titleLabel"
+           styleClass="title-label" />
+
+    <!-- Input area -->
+    <TextArea fx:id="inputArea"
+              promptText="Enter your message..."
+              prefRowCount="4"
+              styleClass="text-area" />
+
+    <!-- Step-specific options -->
+    <VBox fx:id="optionsPane" spacing="8">
+        <!-- Proper margin below this pane -->
+        <VBox.margin>
+            <Insets top="0" right="0" bottom="12" left="0"/>
+        </VBox.margin>
+    </VBox>
+
+    <!-- Encode / Decode buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Encode" onAction="#onEncode" styleClass="primary-button" />
+        <Button text="Decode" onAction="#onDecode" styleClass="primary-button" />
+    </HBox>
+
+    <!-- Output area -->
+    <TextArea fx:id="outputArea"
+              promptText="Output will appear here..."
+              editable="false"
+              prefRowCount="4"
+              styleClass="text-area" />
+
+    <!-- Bottom toolbar with Back + Copy -->
+    <HBox fx:id="bottomToolbar"
+          spacing="10"
+          alignment="CENTER"
+          styleClass="toolbar"
+          VBox.vgrow="NEVER">
+        <Button text="← Back"  onAction="#onBack"  styleClass="back-button" />
+        <Button text="Copy"    onAction="#onCopy"  styleClass="copy-button" />
+    </HBox>
+</VBox>

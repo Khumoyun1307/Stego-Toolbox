@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.yourorg.stegoapp.gui.controllers.SelectionController">
+
+    <!-- add at the top -->
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="⚡ Stego App" styleClass="main-title"/>
+            <Separator prefWidth="200"/>
+        </VBox>
+    </top>
+
+    <center>
+        <TilePane fx:id="stepGrid" hgap="15" vgap="15" prefColumns="3" alignment="CENTER">
+            <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+        </TilePane>
+    </center>
+</BorderPane>
