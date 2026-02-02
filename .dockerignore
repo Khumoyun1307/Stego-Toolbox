@@ -1,0 +1,8 @@
+**/target
+**/out
+**/.idea
+**/.git
+**/node_modules
+**/dist
+.mvn/wrapper/maven-wrapper.jar
+

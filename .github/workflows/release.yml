@@ -1,0 +1,134 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Build JAR
+        run: ./mvnw -B -pl stego-api -am -DskipTests package
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: stego-api-jar
+          path: stego-api/target/*.jar
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: stego-api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/stego-api:${{ github.ref_name }}
+            ghcr.io/${{ github.repository }}/stego-api:latest
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: stego-web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: stego-web/package.json
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: stego-web-dist
+          path: stego-web/dist
+
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Build jlink image (Linux)
+        if: runner.os == 'Linux'
+        run: ./mvnw -B -pl stego-desktop -am -DskipTests -P linux javafx:jlink
+
+      - name: Build jlink image (Windows)
+        if: runner.os == 'Windows'
+        run: .\\mvnw -B -pl stego-desktop -am -DskipTests -P windows javafx:jlink
+
+      - name: Build jlink image (macOS)
+        if: runner.os == 'macOS'
+        run: ./mvnw -B -pl stego-desktop -am -DskipTests -P mac javafx:jlink
+
+      - name: Upload jlink zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: stego-desktop-${{ runner.os }}-jlink
+          path: stego-desktop/target/*.zip
+
+      - name: Install WiX (Windows)
+        if: runner.os == 'Windows'
+        continue-on-error: true
+        run: choco install wixtoolset -y
+
+      - name: Build installer (best-effort)
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${RUNNER_OS}" == "Linux" ]]; then
+            jpackage --type deb --app-image stego-desktop/target/stego-tool --dest stego-desktop/target/jpackage --name StegoTool
+          elif [[ "${RUNNER_OS}" == "macOS" ]]; then
+            jpackage --type dmg --app-image stego-desktop/target/stego-tool --dest stego-desktop/target/jpackage --name StegoTool
+          elif [[ "${RUNNER_OS}" == "Windows" ]]; then
+            jpackage --type msi --app-image stego-desktop/target/stego-tool --dest stego-desktop/target/jpackage --name StegoTool
+          fi
+
+      - name: Upload installer (best-effort)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stego-desktop-${{ runner.os }}-installer
+          path: stego-desktop/target/jpackage/*
+

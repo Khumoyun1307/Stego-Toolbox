@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: stego-api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+stego:
+  cors:
+    allowed-origins: http://localhost:5173
+

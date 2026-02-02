@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.yourorg.stegoapp.gui.controllers.PipelineController"
+      spacing="16">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Pipeline" styleClass="title-label"/>
+
+    <TextArea fx:id="inputArea"
+              promptText="Enter your message..."
+              prefRowCount="4"
+              styleClass="text-area"/>
+
+    <VBox spacing="10">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Steps" styleClass="section-label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <ComboBox fx:id="addStepCombo" promptText="Add step..." prefWidth="220"/>
+            <Button text="Add" onAction="#onAddStep" styleClass="primary-button"/>
+        </HBox>
+
+        <VBox fx:id="stepsBox" spacing="10"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Encode" onAction="#onEncode" styleClass="primary-button"/>
+        <Button text="Decode" onAction="#onDecode" styleClass="primary-button"/>
+    </HBox>
+
+    <TextArea fx:id="outputArea"
+              promptText="Output will appear here..."
+              editable="false"
+              prefRowCount="4"
+              styleClass="text-area"/>
+
+    <HBox spacing="10" alignment="CENTER" styleClass="toolbar">
+        <Button text="← Back" onAction="#onBack" styleClass="back-button"/>
+        <Button text="Copy" onAction="#onCopy" styleClass="copy-button"/>
+    </HBox>
+</VBox>
+

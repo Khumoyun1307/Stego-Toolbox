@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Jan 29 18:08:31 MST 2026
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1769735311810
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact org.springframework.boot\:spring-boot-dependencies\:pom\:3.2.12 from/to central (https\://repo.maven.apache.org/maven2)\: C\:\\Programming\\Java\\Stego-Tool\\.m2repo\\org\\springframework\\boot\\spring-boot-dependencies\\3.2.12\\spring-boot-dependencies-3.2.12.pom.13642292940531716938.tmp.188575025671582793.tmp

@@ -1,0 +1,118 @@
+/* Base */
+.root {
+    -fx-background-color: #2b2b2b;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #e0e0e0;
+    -primary-hue: #39ff14;
+}
+
+/* Make all controls’ text light */
+.label, .text-area, .text-field, .radio-button, .toggle-button, .check-box {
+    -fx-text-fill: #e0e0e0;
+}
+
+/* Title underline */
+.title-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-border-color: #4caf50;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 0 0 8 0;
+}
+
+/* Input & output TextAreas */
+.text-area {
+    -fx-control-inner-background: #383838;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6;
+    -fx-border-color: #4a4a4a;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4, 0, 0, 2);
+    -fx-font-family: "Consolas", "Courier New", monospace;
+}
+
+/* Slightly brighter placeholder */
+.text-area .text,
+.text-field .text {
+    -fx-prompt-text-fill: #FFFFFF;
+}
+
+/* Primary buttons */
+.primary-button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 8 16;
+}
+.primary-button:hover {
+     -fx-background-color: #66bb6a;
+}
+
+/* Step selection buttons */
+.step-button {
+    -fx-background-color: #424242;
+    -fx-text-fill:    #4caf50;   /* green text */
+    -fx-background-radius: 5;
+    -fx-padding: 10 20;
+    -fx-border-color: #4caf50;
+    -fx-border-width: 1;
+}
+
+.step-button:hover {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: #ffffff;
+}
+
+/* Back & Copy toolbar buttons */
+.back-button, .copy-button {
+    -fx-background-color: #424242;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 6 12;
+}
+.back-button:hover,
+.copy-button:hover {
+    -fx-background-color: rgba(76,175,80,0.2);  /* #4caf50 @ 20% */
+}
+
+/* Toolbar container */
+.toolbar {
+    -fx-padding: 12 0;            /* more breathing room */
+    -fx-alignment: center;       /* ensure centering if needed */
+    -fx-border-color: #4a4a4a;
+    -fx-border-width: 1 0 0 0;   /* top border only */
+}
+
+.main-title {
+    -fx-font-size: 32px;
+    -fx-text-fill: linear-gradient(to right, #39ff14, #0afff7);
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,255,100,0.7), 10,0,0,0);
+}
+
+/* Pipeline-only helpers (kept consistent with original theme) */
+.section-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e0e0e0;
+}
+
+.mini-button {
+    -fx-padding: 4 10;
+    -fx-font-size: 12px;
+}
+
+.step-card {
+    -fx-background-color: #333333;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+    -fx-border-color: #4a4a4a;
+    -fx-border-radius: 8;
+}
+
+.step-card-title {
+    -fx-font-weight: bold;
+    -fx-text-fill: #e0e0e0;
+}

@@ -1,0 +1,8 @@
+.step-button {
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-border-color: #333;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}

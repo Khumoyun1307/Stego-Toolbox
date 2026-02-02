@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: stego-api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      STEGO_CORS_ALLOWED_ORIGINS: "http://localhost:5173,http://localhost:8081"
+
+  web:
+    build:
+      context: .
+      dockerfile: stego-web/Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
