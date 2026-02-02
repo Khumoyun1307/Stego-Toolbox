@@ -1,5 +1,4 @@
 package com.yourorg.stegoapp.core;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -499,14 +499,8 @@ export default function App() {
             <a href="#steps" onClick={() => setNavOpen(false)}>
               Steps
             </a>
-            <a href="#faq" onClick={() => setNavOpen(false)}>
-              FAQ
-            </a>
             <a href="#desktop" onClick={() => setNavOpen(false)}>
               Desktop
-            </a>
-            <a href="#api" onClick={() => setNavOpen(false)}>
-              API
             </a>
             <a href="#author" onClick={() => setNavOpen(false)}>
               Author
@@ -520,10 +514,10 @@ export default function App() {
       <main className="page">
         <section className="hero">
           <div className="container">
-            <h1>Text steganography, but as a pipeline.</h1>
+            <h1>Steganography Toolbox</h1>
               <p>
                 Encode and decode hidden messages using <b>Zero-Width</b>, <b>Base64</b>, <b>Emoji</b>, and{" "}
-                <b>Crypto</b>. Everything runs locally in your browser, so the website is fully static.
+                <b>Crypto</b>.
               </p>
             </div>
           </section>
@@ -905,7 +899,7 @@ export default function App() {
                   </ul>
                 </div>
                 <div className="info-card">
-                  <h3>Why a pipeline?</h3>
+                  <h3>How the pipeline works?</h3>
                   <ul>
                     <li>Each step is reversible and can be chained for layered transformations.</li>
                     <li>Encode applies steps top → bottom.</li>
@@ -922,6 +916,18 @@ export default function App() {
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="anchor" id="steps">
+          <div className="container">
+            <div className="card section-card">
+              <h2>Steps</h2>
+              <p className="muted">
+                Use one step, or chain multiple for layered transformations. On the web, Crypto runs in your
+                browser.
+              </p>
 
               <div className="info-grid">
                 <div className="info-card">
@@ -986,59 +992,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="anchor" id="steps">
-          <div className="container">
-            <div className="card section-card">
-              <h2>Steps</h2>
-              <p className="muted">
-                Use one step, or chain multiple for layered transformations. On the web, Crypto runs in your
-                browser.
-              </p>
-              <div className="row">
-                <span className="pill">Zero-Width (RAW / cover)</span>
-                <span className="pill">Base64</span>
-                <span className="pill">Emoji</span>
-                <span className="pill">Crypto (client)</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="anchor" id="faq">
-          <div className="container">
-            <div className="card section-card">
-              <h2>FAQ</h2>
-              <div className="faq">
-                <details className="faq-item">
-                  <summary>Is this secure?</summary>
-                  <div className="muted">
-                    Steganography hides that a message exists. It is not a substitute for strong security.
-                    Use the Crypto step if you need confidentiality.
-                  </div>
-                </details>
-                <details className="faq-item">
-                  <summary>Where does Crypto run?</summary>
-                  <div className="muted">
-                    Crypto runs in your browser (WebCrypto). No server is involved.
-                  </div>
-                </details>
-                <details className="faq-item">
-                  <summary>Does the backend ever see my password?</summary>
-                  <div className="muted">
-                    No. Password-based encryption happens in your browser, and all other steps run locally too.
-                  </div>
-                </details>
-                <details className="faq-item">
-                  <summary>Will image steganography be added?</summary>
-                  <div className="muted">
-                    Yes — it’s available in the Toolbox (Image Stego).
-                  </div>
-                </details>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="anchor" id="desktop">
           <div className="container">
             <div className="card section-card">
@@ -1051,40 +1004,6 @@ export default function App() {
                 <a className="btn btn-primary" href={RELEASES_URL} target="_blank" rel="noreferrer">
                   Download (Latest Release)
                 </a>
-                <a className="btn" href={RELEASES_URL} target="_blank" rel="noreferrer">
-                  Windows
-                </a>
-                <a className="btn" href={RELEASES_URL} target="_blank" rel="noreferrer">
-                  macOS
-                </a>
-                <a className="btn" href={RELEASES_URL} target="_blank" rel="noreferrer">
-                  Linux
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="anchor" id="api">
-          <div className="container">
-            <div className="card section-card">
-              <h2>API</h2>
-              <p className="muted">
-                The web app is fully static and does not require a backend. Optionally run the API locally at{" "}
-                <code>http://localhost:8080</code> for Swagger/OpenAPI and integrations.
-              </p>
-              <div className="row">
-                <a className="btn" href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noreferrer">
-                  Swagger UI
-                </a>
-                <a className="btn" href="http://localhost:8080/v3/api-docs" target="_blank" rel="noreferrer">
-                  OpenAPI JSON
-                </a>
-              </div>
-              <div className="row">
-                <code className="pill">POST /api/v1/text/encode</code>
-                <code className="pill">POST /api/v1/text/decode</code>
-                <code className="pill">GET /api/v1/capabilities</code>
               </div>
             </div>
           </div>
@@ -1111,6 +1030,9 @@ export default function App() {
                     </a>
                     <a className="btn" href="https://github.com/yourname" target="_blank" rel="noreferrer">
                       GitHub
+                    </a>
+                    <a className="btn" href="https://linkedin.com/in/REPLACE_ME" target="_blank" rel="noreferrer">
+                      LinkedIn
                     </a>
                     <a className="btn" href="mailto:you@example.com">
                       Email
@@ -1163,9 +1085,6 @@ export default function App() {
                   <a href="#steps">Steps</a>
                 </li>
                 <li className="footer-link">
-                  <a href="#faq">FAQ</a>
-                </li>
-                <li className="footer-link">
                   <a href="#author">Author</a>
                 </li>
               </ul>
@@ -1182,22 +1101,6 @@ export default function App() {
                 <li className="footer-link">
                   <a href={REPO_URL} target="_blank" rel="noreferrer">
                     Source code
-                  </a>
-                </li>
-              </ul>
-            </section>
-
-            <section className="footer-section" aria-label="API">
-              <h3>API</h3>
-              <ul className="footer-links">
-                <li className="footer-link">
-                  <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noreferrer">
-                    Swagger UI (local)
-                  </a>
-                </li>
-                <li className="footer-link">
-                  <a href="http://localhost:8080/v3/api-docs" target="_blank" rel="noreferrer">
-                    OpenAPI JSON (local)
                   </a>
                 </li>
               </ul>

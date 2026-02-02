@@ -1,107 +1,123 @@
-# Stego-Tool
+﻿# Stego Tool
 
-A modern JavaFX desktop application for encoding and decoding secret messages using steganography and encryption techniques. Supports multiple encoding steps, including zero-width characters, Base64, emoji, and password-based encryption.
+Stego Tool is a pipeline-based **text steganography** playground with:
+- a reusable Java core engine
+- an optional Spring Boot API (for integrations / reuse)
+- a JavaFX desktop app (offline)
+- a modern React website (glass UI)
+
+Crypto is designed to be **client-side** (web uses WebCrypto; desktop uses local code) so passwords never leave the client.
+
+---
 
 ## Features
 
-- **Zero-width encoding:** Hide messages using invisible Unicode characters.
-- **Base64 encoding:** Standard Base64 transformation.
-- **Emoji encoding:** Encode data as a sequence of emojis.
-- **Crypto (AES):** Encrypt messages with a password (AES-256, PBKDF2).
-- **Pipeline:** Chain multiple steps for layered security.
-- **User-friendly GUI:** Built with JavaFX and FXML, with a dark theme.
-- **Clipboard integration:** Copy encoded/decoded results easily.
+- Pipeline builder: chain reversible steps; decode reverses the chain automatically
+- Steps: **Zero-Width** (raw / embed-in-cover), **Base64**, **Emoji**, **Crypto** (AES-256 + PBKDF2)
+- Desktop app: offline by default, single-step + pipeline mode
+- Web app: clean UI inspired by StegZero's "tool + docs + FAQ" structure
+- API: OpenAPI/Swagger docs + consistent error responses (Problem Details)
 
-## Screenshots
+---
 
-> _Add screenshots here if available (e.g., selection screen, encode/decode screen)._
+## How It Works (Conceptually)
 
-## Getting Started
+- Each step is a reversible transformation of text.
+- **Encode** runs steps in order.
+- **Decode** runs steps in reverse order.
+- On the web, everything runs client-side (static site). Crypto never leaves your browser.
 
-### Prerequisites
+---
 
-- **Java 17 or newer** (JavaFX 17+ is recommended)
-- **IntelliJ IDEA** (Community or Ultimate edition)
+## How It Works (Under the Hood)
 
-### Project Structure
+### Modules
+- `stego-core`: pure Java pipeline model + step implementations (no UI, no Spring)
+- `stego-api`: Spring Boot REST API that maps requests -> `stego-core` pipelines (**rejects CRYPTO**)
+- `stego-desktop`: JavaFX client that calls `stego-core` directly (offline)
+- `stego-web`: React + TypeScript client (fully static; all steps run in-browser)
 
+### Web flow
+- **Encode**: Browser runs steps (including Crypto) -> output
+- **Decode**: Browser runs the same steps in reverse -> output
+
+---
+
+## Using the Web App
+
+1. Build your pipeline in the right-hand panel.
+2. Paste input text.
+3. Click **Encode** or **Decode**.
+4. Copy output.
+
+Notes:
+- If you add **Crypto**, it stays pinned as the first step (client-side only).
+- If you set Zero-Width to "Embed in cover", you must provide cover text.
+
+---
+
+## Running Locally
+
+Full instructions + IntelliJ run configurations: `docs/RUNNING.md`.
+
+### API (Spring Boot)
+```powershell
+.\mvnw -pl stego-api -am spring-boot:run
 ```
-Stego-Tool/
-├── src/
-│   └── com/yourorg/stegoapp/...
-├── test/
-│   └── com/yourorg/stegoapp/...
-├── resources/
-│   ├── views/
-│   │   ├── selection.fxml
-│   │   └── stego.fxml
-│   └── styles/
-│       └── dark-theme.css
-└── README.md
+- API base: `http://localhost:8080/api/v1`
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+### Web (Vite dev server)
+```bash
+cd stego-web
+npm install
+npm run dev
+```
+No backend is required for the web app.
+
+Optional env var for the website:
+- `VITE_RELEASES_URL` (used for "Download desktop" buttons)
+
+### Desktop (JavaFX)
+```powershell
+.\mvnw -pl stego-desktop -am javafx:run
 ```
 
-### Running the Application
+---
 
-1. **Clone the repository:**
-   ```
-   git clone https://github.com/yourorg/Stego-Tool.git
-   cd Stego-Tool
-   ```
+## Docker / Compose
+```bash
+docker compose up --build
+```
+- Web (static): `http://localhost:8081`
 
-2. **Open in IntelliJ IDEA:**
-   - Choose **File > Open...** and select the `Stego-Tool` directory.
-   - IntelliJ will detect the `src` and `test` folders automatically.
+Optional (run the API too):
+```bash
+docker compose -f compose.with-api.yaml up --build
+```
+- API: `http://localhost:8080`
+- Web (static): `http://localhost:8081`
 
-3. **Configure JavaFX (if needed):**
-   - Download JavaFX SDK from [https://openjfx.io/](https://openjfx.io/).
-   - In IntelliJ, go to **Project Structure > Libraries** and add the JavaFX SDK `lib` directory.
-   - Add VM options for running:
-     ```
-     --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml
-     ```
+---
 
-4. **Run the App:**
-   - Right-click `com.yourorg.stegoapp.gui.MainApp` and select **Run 'MainApp.main()'**.
+## Backend vs Static-Only Website
 
-### Running Tests
+The web app is now fully static: text transformations and image stego run in your browser.
 
-- Right-click the `test` directory or any test class and select **Run 'All Tests'**.
-- Tests use JUnit 5 and cover all core encoding/decoding logic.
+`stego-api` is still included for optional reuse/integrations and future expansion (e.g., adding a Python image-stego service behind an API gateway).
 
-## Usage
+---
 
-1. **Select a stego/encryption step** from the main menu.
-2. **Enter your message** and configure any options (e.g., password for Crypto, cover text for Zero-width).
-3. **Encode** to hide your message, or **Decode** to reveal a hidden message.
-4. **Copy** results to the clipboard with a single click.
+## CI/CD
 
-## Supported Steps
+- `CI` builds/tests Java modules and builds the web app.
+- `Release` (tags `v*`) produces:
+  - API JAR + GHCR Docker image
+  - Web `dist` artifact
+  - Desktop artifacts for Windows/macOS/Linux (jlink zip + best-effort installers)
 
-| Step Type   | Description                                 | Options         |
-|-------------|---------------------------------------------|-----------------|
-| Zero-width  | Invisible Unicode encoding                  | Cover text      |
-| Base64      | Standard Base64 encoding                    | None            |
-| Emoji       | Encodes bytes as emoji pairs                | None            |
-| Crypto      | AES-256 encryption with password            | Password        |
-
-## Customization
-
-- **Add new steps:** Implement the `StegoStep` interface and register in `StegoFactory`.
-- **Change theme:** Edit `resources/styles/dark-theme.css`.
-
-## Troubleshooting
-
-- **JavaFX errors:** Ensure the JavaFX SDK is properly configured in IntelliJ and VM options are set.
-- **Unsupported Java version:** Use Java 17 or newer.
-- **UI not loading:** Check that FXML and CSS files are in the correct `resources` subfolders.
+---
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
-
-## Credits
-
-- Developed by [Your Name/Team].
-- Emoji icons © respective creators.
-
----
+MIT License. See `LICENSE`.
